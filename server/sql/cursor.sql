@@ -1,20 +1,20 @@
--- ПОСМОТРЕТЬ, СКОЛЬКО ЗОЛОТЫХ БИЛЕТОВ ПРОДАНО
 DO $$
 	DECLARE 
-		my_cursor CURSOR FOR SELECT ticket_id FROM tickets WHERE code = 'GOLDEN_TICKET';
+		curs CURSOR FOR SELECT train_name FROM trains;
 		rec TEXT;
 	
 	BEGIN
-		OPEN my_cursor;
+		OPEN curs;
 		
-		FETCH NEXT FROM my_cursor INTO rec;
+		FETCH NEXT FROM curs INTO rec;
 
 		WHILE FOUND
 		LOOP
 		   RAISE NOTICE '%', rec;
-		   FETCH NEXT FROM my_cursor INTO rec;
+		   FETCH NEXT FROM curs INTO rec;
 		END LOOP;
 
-		CLOSE my_cursor;
+		CLOSE curs;
 	END;
-$$
+$$;
+-- выводит все имена поездов

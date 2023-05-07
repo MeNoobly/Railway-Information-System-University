@@ -1,4 +1,5 @@
-CREATE INDEX airplane_name_idx ON airplanes(airpale_name);
-CREATE UNIQUE INDEX login_idx ON users(login);
-CREATE INDEX fl_idx ON flights(departure_date, arrival_date, departure_city, arrival_city);
-CREATE INDEX tckt_idx ON tickets(price, flight, passanger_id);
+CREATE INDEX _idx_train_name ON trains(train_name);
+CREATE UNIQUE INDEX _idx_username ON users(name);
+CREATE UNIQUE INDEX _idx_train_name ON trains(train_name);
+
+-- придумай сам пж плз ещё один индекс, у меня уже фантазия закончилась

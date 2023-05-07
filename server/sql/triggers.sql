@@ -1,21 +1,16 @@
--- реализует механику "золотого билета", когда покупается 10й билет, его стоимость приравнивается к 1
-CREATE OR REPLACE FUNCTION generate_code() RETURNS TRIGGER AS
+-- по умолчанию ставит в поезд (поле number_of_vans) 10 вагонов
+CREATE OR REPLACE FUNCTION number_of_vans_as_usual() RETURNS TRIGGER AS
 $BODY$
 	BEGIN
-		IF NEW.ticket_id % 10 = 0 THEN
-			NEW.code = 'GOLDEN_TICKET';
-			NEW.PRICE = 1.0;
-		ELSE
-			NEW.code = 'default_ticket';
-		END IF;
+		NEW.number_of_vans = 10;
 		RETURN NEW;
 	END;
 $BODY$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER "generate_code_trigger"
-	BEFORE INSERT ON tickets
+CREATE OR REPLACE TRIGGER "_trigger_number_of_vans_as_usual_"
+	BEFORE INSERT ON trains
 	FOR EACH ROW
-		EXECUTE PROCEDURE "generate_code"();
+		EXECUTE PROCEDURE "number_of_vans_as_usual"();
 
-DROP TRIGGER generate_code_trigger ON tickets;
+DROP TRIGGER _trigger_number_of_vans_as_usual_ ON trains;
