@@ -8,11 +8,11 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM add_train('fast_like_a_ponos');
-SELECT * FROM add_train('slow_like_my_brain');
-SELECT * FROM add_train('average_like_strominka');
-SELECT * FROM add_train('kukuruza');
-SELECT * FROM add_train('WITH_TRIG');
+SELECT * FROM add_train('train_1');
+SELECT * FROM add_train('train_2');
+SELECT * FROM add_train('train_3');
+
+
 --------------------------------------------------------------------------------------
 
 
@@ -118,7 +118,7 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM update_user(1, 'Nikita Chupin', 'POIUYT');
+SELECT * FROM update_user(1, 'Nikita Chupin', '12345');
 ------------------------------------------------------------------------------------
 
 
@@ -247,6 +247,7 @@ SELECT * FROM train_set;
 -- SELECT * FROM rides WHERE arrival_date - departure_date < (
 -- 	SELECT AVG(arrival_date - departure_date) FROM rides
 -- );
+
 ------------------------------------------- CORRELATED REQUESTS -------------------------------------------
 
 
