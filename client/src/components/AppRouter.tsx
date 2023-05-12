@@ -4,13 +4,13 @@ import { Context } from "..";
 import { IContext } from "../types/context/context";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { adminRoutes, authRoutes, publicRoutes } from "../route";
-import { LOGIN_PATH } from "../utils/consts";
+import { LOGIN_PATH, MAIN_PATH } from "../utils/consts";
 
 const AppRouter: FC = observer(() => {
     const { user } = useContext<IContext>(Context);
 
     return (
-        <div>
+        <>
             <Routes>
                 {user.isAuth &&
                     authRoutes.map(({ path, Component }) => (
@@ -24,9 +24,13 @@ const AppRouter: FC = observer(() => {
                 {publicRoutes.map(({ path, Component }) => (
                     <Route key={path} path={path} element={<Component />} />
                 ))}
-                <Route path="*" element={<Navigate to={LOGIN_PATH} />} />
+                {user.isAuth ? (
+                    <Route path="*" element={<Navigate to={MAIN_PATH} />} />
+                ) : (
+                    <Route path="*" element={<Navigate to={LOGIN_PATH} />} />
+                )}
             </Routes>
-        </div>
+        </>
     );
 });
 

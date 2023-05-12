@@ -1,7 +1,7 @@
 CREATE TABLE users(
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(20),
-	password VARCHAR(20)
+	name VARCHAR(255),
+	password VARCHAR(255)
 );
 SELECT * FROM users;
 
