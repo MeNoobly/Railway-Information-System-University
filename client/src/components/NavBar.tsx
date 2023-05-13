@@ -9,8 +9,9 @@ import {
     Dropdown,
     Nav,
 } from "react-bootstrap";
+import { observer } from "mobx-react-lite";
 
-const NavBar: FC = () => {
+const NavBar: FC = observer(() => {
     const { user } = useContext<IContext>(Context);
     const navigate = useNavigate();
 
@@ -64,6 +65,6 @@ const NavBar: FC = () => {
             </Navbar>
         </>
     );
-};
+});
 
 export default NavBar;

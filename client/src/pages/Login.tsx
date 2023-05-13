@@ -6,8 +6,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { MAIN_PATH } from "../utils/consts";
 import { ILoginFields } from "../types/forms/login";
 import { login } from "../http/userAPI";
+import { observer } from "mobx-react-lite";
 
-const Login: FC = () => {
+const Login: FC = observer(() => {
     const navigate = useNavigate();
     const { user } = useContext(Context);
 
@@ -88,6 +89,6 @@ const Login: FC = () => {
             </Container>
         </>
     );
-};
+});
 
 export default Login;

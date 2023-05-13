@@ -6,5 +6,5 @@ export interface IUser {
 export interface IUserStore {
     isAdmin: boolean;
     isAuth: boolean;
-    user: IUser;
+    user: IUser | {};
 }
