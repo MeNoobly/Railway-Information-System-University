@@ -40,11 +40,6 @@ const NavBar: FC = observer(() => {
                                 Профиль
                             </Dropdown.Item>
                             <Dropdown.Item
-                                onClick={() => navigate("/favourites")}
-                            >
-                                Избранное
-                            </Dropdown.Item>
-                            <Dropdown.Item
                                 onClick={() => {
                                     navigate("/");
                                     user.isAuth = false;

@@ -9,5 +9,4 @@ export interface IRide {
 
 export interface IRidesStore {
     rides: IRide[];
-    getRides: () => Promise<IRide[] | undefined>;
 }

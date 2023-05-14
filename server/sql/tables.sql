@@ -7,7 +7,7 @@ SELECT * FROM users;
 
 CREATE TABLE trains(
 	id SERIAL PRIMARY KEY,
-	train_name VARCHAR(30),
+	train_name VARCHAR(255),
 	number_of_vans INT
 );
 SELECT * FROM trains;
@@ -23,26 +23,16 @@ CREATE TABLE rides(
 	id SERIAL PRIMARY KEY,
 	departure_date TIMESTAMP,
 	arrival_date TIMESTAMP,
-	departure_city VARCHAR(30),
-	arrival_city VARCHAR(30),
+	departure_city VARCHAR(255),
+	arrival_city VARCHAR(255),
 	train_id INT REFERENCES trains(id)
 );
 SELECT * FROM rides;
 
-CREATE TABLE tickets(
-	id SERIAL PRIMARY KEY,
-	price FLOAT,
-	ride_id INT REFERENCES rides(id),
-	user_id INT REFERENCES users(id)
-);
-SELECT * FROM tickets;
-
 ----------------------------
-DROP TABLE tickets CASCADE;
 DROP TABLE users;
 DROP TABLE rides;
 DROP TABLE trains;
 DROP TABLE vans;
 
 ----------------------------
-TRUNCATE TABLE tickets;

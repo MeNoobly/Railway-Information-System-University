@@ -12,9 +12,7 @@ SELECT * FROM add_train('train_1');
 SELECT * FROM add_train('train_2');
 SELECT * FROM add_train('train_3');
 
-
 --------------------------------------------------------------------------------------
-
 
 CREATE OR REPLACE FUNCTION delete_train(_train_id INT)
 RETURNS VOID AS
@@ -40,47 +38,6 @@ LANGUAGE plpgsql;
 
 SELECT * FROM update_train(5, 'New_WITH_TRIG', 15);
 -------------------------------------------------------------------------------------
-
-
-CREATE OR REPLACE FUNCTION add_ticket(_price FLOAT, _ride INT, _user_id INT) 
-RETURNS VOID AS
-$BODY$	
-	BEGIN
-		INSERT INTO tickets(price, ride_id, user_id)
-			VALUES (_price, _ride, _user_id);
-	END;
-$BODY$
-LANGUAGE plpgsql;
-
-SELECT * FROM add_ticket(100, 6, 1);
--------------------------------------------------------------------------------------
-
-
-CREATE OR REPLACE FUNCTION delete_ticket(_ticket_id INT)
-RETURNS VOID AS 
-$BODY$
-	BEGIN
-		DELETE FROM tickets WHERE id = _ticket_id;
-	END;
-$BODY$
-LANGUAGE plpgsql;
-
-SELECT * FROM delete_ticket(4);
--------------------------------------------------------------------------------------
-
-
-CREATE OR REPLACE FUNCTION update_ticket(_ticket_id INT, _price FLOAT, _ride INT, _user_id INT)
-RETURNS VOID AS
-$BODY$
-	BEGIN
-		UPDATE tickets SET price = _price, ride_id = _ride, user_id = _user_id WHERE id = _ticket_id;
-	END;
-$BODY$
-LANGUAGE plpgsql;
-
-SELECT * FROM update_ticket(3, 400, 3, 1);
-------------------------------------------------------------------------------------
-
 
 CREATE OR REPLACE FUNCTION add_user(_name VARCHAR(20), _password VARCHAR(20))
 RETURNS VOID AS
