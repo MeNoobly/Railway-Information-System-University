@@ -1,9 +1,9 @@
-CREATE OR REPLACE FUNCTION add_train(_train_name VARCHAR(30))
+CREATE OR REPLACE FUNCTION add_train(_train_name VARCHAR(255), _number_of_vans INT)
 RETURNS VOID AS 
 $BODY$
 	BEGIN
-		INSERT INTO trains(train_name)
-		VALUES (_train_name);
+		INSERT INTO trains(train_name, number_of_vans)
+		VALUES (_train_name, _number_of_vans);
 	END;
 $BODY$
 LANGUAGE plpgsql;
@@ -27,7 +27,7 @@ SELECT * FROM delete_train(1);
 --------------------------------------------------------------------------------------
 
 
-CREATE OR REPLACE FUNCTION update_train(_train_id INT, _train_name VARCHAR(30), _number_of_vans INT)
+CREATE OR REPLACE FUNCTION update_train(_train_id INT, _train_name VARCHAR(255), _number_of_vans INT)
 RETURNS VOID AS
 $BODY$
 	BEGIN
@@ -36,10 +36,10 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM update_train(5, 'New_WITH_TRIG', 15);
+SELECT * FROM update_train(5, 'New Train With Trigger', 15);
 -------------------------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION add_user(_name VARCHAR(20), _password VARCHAR(20))
+CREATE OR REPLACE FUNCTION add_user(_name VARCHAR(255), _password VARCHAR(255))
 RETURNS VOID AS
 $BODY$
 	BEGIN
@@ -49,7 +49,7 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM add_user('Nikita', 'qwerty228');
+SELECT * FROM add_user('Nikita', '12345');
 ------------------------------------------------------------------------------------
 
 
@@ -66,7 +66,7 @@ SELECT * FROM delete_user(2);
 ------------------------------------------------------------------------------------
 
 
-CREATE OR REPLACE FUNCTION update_user(_user_id INT, _username VARCHAR(20), _password VARCHAR(20))
+CREATE OR REPLACE FUNCTION update_user(_user_id INT, _username VARCHAR(255), _password VARCHAR(255))
 RETURNS VOID AS
 $BODY$
 	BEGIN
@@ -79,7 +79,7 @@ SELECT * FROM update_user(1, 'Nikita Chupin', '12345');
 ------------------------------------------------------------------------------------
 
 
-CREATE OR REPLACE PROCEDURE add_ride(_departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(30), _arrival_city VARCHAR(30), _id INT) AS
+CREATE OR REPLACE PROCEDURE add_ride(_departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(255), _arrival_city VARCHAR(255), _id INT) AS
 $BODY$
 	DECLARE
 		tr_id INT;
@@ -95,6 +95,7 @@ $BODY$
 	END;
 $BODY$
 LANGUAGE plpgsql;
+
 CALL add_ride('2023-10-18 07:00:00', '2023-10-28 09:40:00', 'New-Dheli', 'Moscow', 4);
 CALL add_ride('2023-10-18 07:00:00', '2023-10-28 09:40:00', 'New-Dheli', 'Moscow', 1224);
 --------------------------------------------------------------------------------------
@@ -113,7 +114,7 @@ SELECT * FROM delete_ride(5);
 ------------------------------------------------------------------------------------
 
 
-CREATE OR REPLACE FUNCTION update_ride(_ride_id INT, _departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(30), _arrival_city VARCHAR(30), _train_id INT)
+CREATE OR REPLACE FUNCTION update_ride(_ride_id INT, _departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(255), _arrival_city VARCHAR(255), _train_id INT)
 RETURNS VOID AS
 $BODY$
 	BEGIN
@@ -159,7 +160,7 @@ CREATE OR REPLACE FUNCTION update_van(_van_id INT, _capacity INT, _reserved INT,
 RETURNS VOID AS
 $BODY$
 	BEGIN
-		UPDATE vans SET id = _van_id, capacity = _capacity, reserved = _reserved, train_id = _train_id WHERE id = _van_id;
+		UPDATE vans SET capacity = _capacity, reserved = _reserved, train_id = _train_id WHERE id = _van_id;
 	END;
 $BODY$
 LANGUAGE plpgsql;
@@ -169,7 +170,7 @@ SELECT * FROM update_van(4, 10, 5, 3);
 
 
 CREATE OR REPLACE FUNCTION departures_table()
-RETURNS TABLE (_departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(30), _arrival_city VARCHAR(30),	_train_name VARCHAR(30), long_course_suburban TEXT) AS
+RETURNS TABLE (_departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(255), _arrival_city VARCHAR(255),	_train_name VARCHAR(255), long_course_suburban TEXT) AS
 $BODY$
 	DECLARE
 	full_train INT;

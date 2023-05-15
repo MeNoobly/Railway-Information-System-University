@@ -16,7 +16,7 @@ CREATE TABLE vans(
 	id SERIAL PRIMARY KEY,
 	capacity INT,
 	reserved INT,
-	train_id INT REFERENCES trains(id)
+	train_id INT NOT NULL REFERENCES trains(id)
 );
 SELECT * FROM vans;
 CREATE TABLE rides(

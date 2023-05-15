@@ -8,9 +8,11 @@ import { IRoutes } from "./types/routes/routes";
 export const publicRoutes: IRoutes[] = [
     { path: "/login", Component: Login },
     { path: "/registration", Component: Registration },
-    { path: "/main", Component: Main },
 ];
 
-export const authRoutes: IRoutes[] = [{ path: "/profile", Component: Profile }];
+export const authRoutes: IRoutes[] = [
+    { path: "/profile", Component: Profile },
+    { path: "/main", Component: Main },
+];
 
 export const adminRoutes: IRoutes[] = [{ path: "/admin", Component: Admin }];
