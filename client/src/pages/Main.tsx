@@ -1,25 +1,24 @@
 import React, { FC, useContext, useEffect } from "react";
 import { Context } from "..";
 import { observer } from "mobx-react-lite";
-import RidesList from "../components/RidesList";
-import { getRides } from "../http/ridesAPI";
+import { getDepartures } from "../http/departuresAPI";
+import DeparturesList from "../components/DeparturesList";
 
 const Main: FC = observer(() => {
-    const { rides } = useContext(Context);
+    const { departures } = useContext(Context);
 
     useEffect(() => {
-        getRides().then((data) => {
+        getDepartures().then((data) => {
             if (data !== undefined) {
-                rides.rides = data;
-                console.log(rides.rides);
+                departures.departures = data;
             }
         });
-    }, [rides]);
+    }, [departures]);
 
     return (
         <div>
             <h1 style={{ textAlign: "center" }}>Список маршрутов</h1>
-            <RidesList list={rides.rides} />
+            <DeparturesList list={departures.departures} />
         </div>
     );
 });

@@ -1,9 +1,9 @@
 import { $host } from ".";
-import { IRide } from "../types/main/rides";
+import { IDeparture } from "../types/main/departures";
 
-export const getRides = async () => {
+export const getDepartures = async () => {
     try {
-        const { data } = await $host.get<IRide[]>("/api/routes/all");
+        const { data } = await $host.get<IDeparture[]>("/api/departures/all");
         return data;
     } catch (error: Error | unknown) {
         if (error instanceof Error) {

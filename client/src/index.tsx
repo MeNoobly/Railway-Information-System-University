@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import UserStore from "./store/UserStore";
 import { IContext } from "./types/context/context";
-import { QueryClient, QueryClientProvider } from "react-query";
-import RidesStore from "./store/RidesStore";
+import DeparturesStore from "./store/DeparturesStore";
+import TrainsStore from "./store/TrainsStore";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -12,22 +12,20 @@ const root = ReactDOM.createRoot(
 
 export const Context = createContext<IContext>({
     user: new UserStore(),
-    rides: new RidesStore(),
+    departures: new DeparturesStore(),
+    trains: new TrainsStore(),
 });
-
-const queryClient = new QueryClient();
 
 root.render(
     <React.StrictMode>
         <Context.Provider
             value={{
                 user: new UserStore(),
-                rides: new RidesStore(),
+                departures: new DeparturesStore(),
+                trains: new TrainsStore(),
             }}
         >
-            <QueryClientProvider client={queryClient}>
-                <App />
-            </QueryClientProvider>
+            <App />
         </Context.Provider>
     </React.StrictMode>
 );

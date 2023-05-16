@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { IRidesItemProps } from "../types/props/rides";
 import { Col, Row } from "react-bootstrap";
 import { normaliseDate } from "../functions/date";
+import { IDeparturesItemProps } from "../types/props/departures";
 
-const RidesItem: FC<IRidesItemProps> = ({ ride }) => {
+const DeparturesItem: FC<IDeparturesItemProps> = ({ ride }) => {
     return (
         <Row>
             <Col>{normaliseDate(ride._departure_date)}</Col>
@@ -16,4 +16,4 @@ const RidesItem: FC<IRidesItemProps> = ({ ride }) => {
     );
 };
 
-export default RidesItem;
+export default DeparturesItem;

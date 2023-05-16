@@ -1,4 +1,4 @@
-export interface IRide {
+export interface IDeparture {
     _departure_date: string;
     _arrival_date: string;
     _departure_city: string;
@@ -7,6 +7,6 @@ export interface IRide {
     long_course_suburban: string;
 }
 
-export interface IRidesStore {
-    rides: IRide[];
+export interface IDepartureStore {
+    departures: IDeparture[];
 }

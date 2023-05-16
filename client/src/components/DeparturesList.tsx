@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { IRidesItemListProps } from "../types/props/rides";
-import RidesItem from "./RidesItem";
 import { Col, Container, Row } from "react-bootstrap";
+import { IDeparturesListProps } from "../types/props/departures";
+import DeparturesItem from "./DeaprturesItem";
 
-const RidesList: FC<IRidesItemListProps> = ({ list }) => {
+const RidesList: FC<IDeparturesListProps> = ({ list }) => {
     return (
         <div>
             <Container
@@ -31,7 +31,7 @@ const RidesList: FC<IRidesItemListProps> = ({ list }) => {
                     </Col>
                 </Row>
                 {list.map((item) => (
-                    <RidesItem ride={item} key={Date.now()} />
+                    <DeparturesItem ride={item} key={Date.now()} />
                 ))}
             </Container>
         </div>
