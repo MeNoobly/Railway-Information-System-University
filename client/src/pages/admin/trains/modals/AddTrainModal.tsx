@@ -8,7 +8,10 @@ const AddTrainModal: FC<ITrainModalsProps> = ({ show, handleClose }) => {
     const [numberOfVans, setNumberOfVans] = useState("");
 
     const addTrain = () => {
-        createTrain().then((data) => {
+        createTrain({
+            train_name: trainName,
+            number_of_vans: numberOfVans,
+        }).then(() => {
             setTrainName("");
             setNumberOfVans("");
             handleClose();

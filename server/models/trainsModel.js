@@ -9,6 +9,15 @@ export async function getAllTrainsModel() {
     }
 }
 
+export async function getOneTrainModel(id) {
+    try {
+        const data = await db.query("SELECT * FROM trains WHERE id=$1", [id]);
+        return data.rows;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 export async function createTrainModel(trainName, numberOfVans) {
     try {
         const data = await db.query("SELECT * FROM add_train($1, $2)", [

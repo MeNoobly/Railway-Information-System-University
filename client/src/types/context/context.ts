@@ -1,9 +1,11 @@
 import { IUserStore } from "../main/user";
 import { IDepartureStore } from "../main/departures";
-import { ITrainStore } from "../main/trains";
+import { ITrainsStore } from "../main/trains";
+import { IVansStore } from "../main/vans";
 
 export interface IContext {
     user: IUserStore;
     departures: IDepartureStore;
-    trains: ITrainStore;
+    trains: ITrainsStore;
+    vans: IVansStore;
 }

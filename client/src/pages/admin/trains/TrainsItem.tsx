@@ -1,10 +1,14 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { ITrainsItemsProps } from "../../../types/props/trains";
 import { Button, Col, Row } from "react-bootstrap";
 import { deleteTrain } from "../../../http/trainsAPI";
 import ChangeTrainModal from "./modals/ChangeTrainModal";
+import { observer } from "mobx-react-lite";
+import { Context } from "../../..";
 
-const TrainsItem: FC<ITrainsItemsProps> = ({ item }) => {
+const TrainsItem: FC<ITrainsItemsProps> = observer(({ item }) => {
+    const { trains } = useContext(Context);
+
     const [trainChangeVisible, setTrainChangeVisible] = useState(false);
 
     return (
@@ -15,23 +19,36 @@ const TrainsItem: FC<ITrainsItemsProps> = ({ item }) => {
                 <Col md={1}>
                     <Button
                         variant="primary"
-                        onClick={() => setTrainChangeVisible(true)}
+                        onClick={async () => {
+                            setTrainChangeVisible(true);
+                        }}
                     >
                         Изменить
                     </Button>
                 </Col>
                 <Col md={2}>
-                    <Button variant="danger" onClick={() => deleteTrain()}>
+                    <Button
+                        variant="danger"
+                        onClick={() => {
+                            deleteTrain(item);
+                            trains.trains = trains.trains.filter(
+                                (train) => train.id !== item.id
+                            );
+                        }}
+                    >
                         Удалить
                     </Button>
                 </Col>
             </Row>
             <ChangeTrainModal
+                id={item.id as number}
                 show={trainChangeVisible}
                 handleClose={() => setTrainChangeVisible(false)}
+                defaultTrainName={item.train_name}
+                defaultNumberOfVans={item.number_of_vans}
             />
         </>
     );
-};
+});
 
 export default TrainsItem;

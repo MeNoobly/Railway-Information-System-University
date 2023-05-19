@@ -1,4 +1,4 @@
-import { $host } from ".";
+import { $authHost, $host } from ".";
 import { ITrain } from "../types/main/trains";
 
 export const getTrains = async () => {
@@ -12,17 +12,57 @@ export const getTrains = async () => {
     }
 };
 
-export const createTrain = async () => {
-    const { data } = await $host.get<ITrain[]>("/api/trains/all");
-    console.log("поезд создан");
+export const getOneTrain = async (id: number) => {
+    try {
+        const { data } = await $authHost.post("/api/trains/one", {
+            id,
+        });
+        return data;
+    } catch (error: Error | unknown) {
+        if (error instanceof Error) {
+            alert(error);
+        }
+    }
 };
 
-export const deleteTrain = async () => {
-    const { data } = await $host.get<ITrain[]>("/api/trains/all");
-    console.log("поезд удален");
+export const createTrain = async (train: ITrain) => {
+    try {
+        const { data } = await $authHost.post("/api/trains/create", {
+            trainName: train.train_name,
+            numberOfVans: +train.number_of_vans,
+        });
+        return data;
+    } catch (error: Error | unknown) {
+        if (error instanceof Error) {
+            alert(error);
+        }
+    }
 };
 
-export const changeTrain = async () => {
-    const { data } = await $host.get<ITrain[]>("/api/trains/all");
-    console.log("поезд изменен");
+export const deleteTrain = async (train: ITrain) => {
+    try {
+        const { data } = await $authHost.post("/api/trains/delete", {
+            id: train.id,
+        });
+        return data;
+    } catch (error: Error | unknown) {
+        if (error instanceof Error) {
+            alert(error);
+        }
+    }
+};
+
+export const changeTrain = async (train: ITrain) => {
+    try {
+        const { data } = await $authHost.post("/api/trains/update", {
+            id: train.id,
+            trainName: train.train_name,
+            numberOfVans: +train.number_of_vans,
+        });
+        return data;
+    } catch (error: Error | unknown) {
+        if (error instanceof Error) {
+            alert(error);
+        }
+    }
 };

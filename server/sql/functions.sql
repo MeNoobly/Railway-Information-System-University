@@ -18,7 +18,9 @@ CREATE OR REPLACE FUNCTION delete_train(_train_id INT)
 RETURNS VOID AS
 $BODY$
 	BEGIN
-		DELETE FROM trains WHERE id = _train_id;
+		DELETE FROM vans WHERE train_id = _train_id;
+		DELETE FROM rides WHERE train_id = _train_id;
+		DELETE FROM trains CASCADE WHERE id = _train_id;
 	END;
 $BODY$
 LANGUAGE plpgsql;

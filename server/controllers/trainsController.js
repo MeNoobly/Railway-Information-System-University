@@ -3,6 +3,7 @@ import {
     createTrainModel,
     deleteTrainModel,
     getAllTrainsModel,
+    getOneTrainModel,
     updateTrainModel,
 } from "../models/trainsModel.js";
 
@@ -15,6 +16,21 @@ class trainsController {
             return next(
                 ApiError.badRequest(
                     `Произошла ошибка при получении поездов: ${error}`
+                )
+            );
+        }
+    }
+
+    async getOneTrain(request, response, next) {
+        const { id } = request.body;
+
+        try {
+            const data = await getOneTrainModel(id);
+            return response.json(data);
+        } catch (error) {
+            return next(
+                ApiError.badRequest(
+                    `Произошла ошибка при получении поезда: ${error}`
                 )
             );
         }
