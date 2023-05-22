@@ -1,6 +1,6 @@
 import { IVan } from "../main/vans";
 
-export interface IVansItemsProps {
+export interface IVansItemProps {
     item: IVan;
 }
 

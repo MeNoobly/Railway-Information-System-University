@@ -98,8 +98,7 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-CALL add_ride('2023-10-18 07:00:00', '2023-10-28 09:40:00', 'New-Dheli', 'Moscow', 4);
-CALL add_ride('2023-10-18 07:00:00', '2023-10-28 09:40:00', 'New-Dheli', 'Moscow', 1224);
+CALL add_ride('2023-10-18 07:00:00', '2023-10-28 09:40:00', 'Москва', 'Санкт-Петербург', 4);
 --------------------------------------------------------------------------------------
 
 
@@ -125,7 +124,7 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM update_ride(3, '2023-05-01 14:15:00', '2023-05-01 16:55:00', 'Kishenev', 'Limassol', 4);
+SELECT * FROM update_ride(3, '2023-05-01 14:15:00', '2023-05-01 16:55:00', 'Москва', 'Казань', 4);
 ----------------------------------------- -------------------------------------------
 
 CREATE OR REPLACE FUNCTION add_van(_capacity INT, _reserved INT, _train_id INT)
@@ -196,52 +195,54 @@ SELECT * FROM train_set;
 ------------------------------------------------------------------------------------
 
 
--- SELECT * FROM tickets WHERE price > (
--- 	SELECT AVG(price) FROM tickets
--- );
+SELECT * FROM tickets WHERE price > (
+	SELECT AVG(price) FROM tickets
+);
 
--- SELECT * FROM trains WHERE reserved_seats > (                											ТУТ ТЕБЕ НАДО САМОМУ ПРИДУМАТЬ ИДЕИ ДЛЯ ЗАПРОСОВ, МНЕ ИХ ПОТОМ СКАЖЕШЬ, Я ТЕБЕ СДЕЛАЮ
--- 	SELECT AVG(reserved_seats) FROM trains
--- ) AND reserved_seats != seats;
+SELECT * FROM trains WHERE reserved_seats > (                											
+	SELECT AVG(reserved_seats) FROM trains
+) AND reserved_seats != seats;
 
--- SELECT * FROM rides WHERE arrival_date - departure_date < (
--- 	SELECT AVG(arrival_date - departure_date) FROM rides
--- );
+SELECT * FROM rides WHERE arrival_date - departure_date < (
+	SELECT AVG(arrival_date - departure_date) FROM rides
+);
 
 ------------------------------------------- CORRELATED REQUESTS -------------------------------------------
 
 
--- количество юзеров, которые купили билет за цену, больше средней
--- SELECT COUNT(user_id) AS buisiness_class FROM users JOIN tickets ON tickets.user_id = users.user_id
--- 	GROUP BY price   																						ТУТ ТЕБЕ НАДО САМОМУ ПРИДУМАТЬ ИДЕИ ДЛЯ ЗАПРОСОВ, МНЕ ИХ ПОТОМ СКАЖЕШЬ, Я ТЕБЕ СДЕЛАЮ
--- 	HAVING price >= (SELECT AVG(price) FROM tickets);
+количество юзеров, которые купили билет за цену, больше средней
+SELECT COUNT(user_id) AS buisiness_class FROM users JOIN tickets ON tickets.user_id = users.user_id
+	GROUP BY price   																						
+	HAVING price >= (SELECT AVG(price) FROM tickets);
+
+
 ------------------------------------------- HAVING REQUEST -------------------------------------------
 
 
--- SELECT train_name FROM trains WHERE seats > (
--- 	SELECT AVG(seats) FROM trains
--- );
+SELECT train_name FROM trains WHERE seats > (
+	SELECT AVG(seats) FROM trains
+);
 
--- SELECT * FROM (
--- 	SELECT departure_date, arrival_date, departure_city, arrival_city FROM rides     						ТУТ ТЕБЕ НАДО САМОМУ ПРИДУМАТЬ ИДЕИ ДЛЯ ЗАПРОСОВ, МНЕ ИХ ПОТОМ СКАЖЕШЬ, Я ТЕБЕ СДЕЛАЮ
--- ) AS rides;
+SELECT * FROM (
+	SELECT departure_date, arrival_date, departure_city, arrival_city FROM rides     						
+) AS rides;
 
--- SELECT train_name,
--- 	(SELECT COUNT(train_id) FROM rides WHERE rides.train_id = trains.train_id)
--- FROM trains;
+SELECT train_name,
+	(SELECT COUNT(train_id) FROM rides WHERE rides.train_id = trains.train_id)
+FROM trains;
 ------------------------------------------- SUBQUERY REQUEST (SELECT, FROM, WHERE) -------------------------------------------
 
--- вывести на экран билеты если в таблице есть билеты на тот же рейс
--- SELECT ticket_id, price, ride, user_id
--- 	FROM tickets tckt
--- 	WHERE ride = ANY(
--- 		SELECT ride FROM tickets tckt1 WHERE tckt != tckt1
--- 	);
+вывести на экран билеты если в таблице есть билеты на тот же рейс
+SELECT ticket_id, price, ride, user_id
+	FROM tickets tckt
+	WHERE ride = ANY(
+		SELECT ride FROM tickets tckt1 WHERE tckt != tckt1
+	);
 
--- -- вывести на экран с помощью SELECT все билеты, где цена превышает цену каждого билета на 3 рейс		ТУТ ТЕБЕ НАДО САМОМУ ПРИДУМАТЬ ИДЕИ ДЛЯ ЗАПРОСОВ, МНЕ ИХ ПОТОМ СКАЖЕШЬ, Я ТЕБЕ СДЕЛАЮ
--- SELECT *
--- 	FROM tickets
--- 	WHERE price > ALL(
--- 		SELECT price FROM tickets WHERE ride = 3
--- 	);
+-- вывести на экран с помощью SELECT все билеты, где цена превышает цену каждого билета на 3 рейс		
+SELECT *
+	FROM tickets
+	WHERE price > ALL(
+		SELECT price FROM tickets WHERE ride = 3
+	);
 ------------------------------------------- PREDICAT REQUEST (ANY, ALL) -------------------------------------------

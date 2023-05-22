@@ -14,3 +14,14 @@ export interface IVanModalsProps {
     defaultReserved?: number;
     defaultTrainId?: number;
 }
+
+export interface IRideModalsProps {
+    id?: number;
+    show: boolean;
+    handleClose: () => void;
+    defaultDepartureDate?: string;
+    defaultArrivalDate?: string;
+    defaultDepartureCity?: string;
+    defaultArrivalCity?: string;
+    defaultTrainId?: number;
+}

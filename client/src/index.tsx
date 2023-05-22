@@ -6,6 +6,7 @@ import UserStore from "./store/UserStore";
 import DeparturesStore from "./store/DeparturesStore";
 import TrainsStore from "./store/TrainsStore";
 import VansStore from "./store/VansStore";
+import RidesStore from "./store/RIdesStore";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -16,6 +17,7 @@ export const Context = createContext<IContext>({
     departures: new DeparturesStore(),
     trains: new TrainsStore(),
     vans: new VansStore(),
+    rides: new RidesStore(),
 });
 
 root.render(
@@ -26,6 +28,7 @@ root.render(
                 departures: new DeparturesStore(),
                 trains: new TrainsStore(),
                 vans: new VansStore(),
+                rides: new RidesStore(),
             }}
         >
             <App />

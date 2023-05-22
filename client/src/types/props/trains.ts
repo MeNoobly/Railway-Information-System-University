@@ -1,6 +1,6 @@
 import { ITrain } from "../main/trains";
 
-export interface ITrainsItemsProps {
+export interface ITrainsItemProps {
     item: ITrain;
 }
 

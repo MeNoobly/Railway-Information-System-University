@@ -1,13 +1,13 @@
 import React, { FC, useContext, useEffect, useState } from "react";
-import { IVansItemsProps } from "../../../types/props/vans";
 import { Row, Col, Button } from "react-bootstrap";
 import { Context } from "../../..";
 import { deleteVan } from "../../../http/vansAPI";
 import ChangeVanModal from "./modals/ChangeVanModal";
 import { getOneTrain } from "../../../http/trainsAPI";
 import { ITrain } from "../../../types/main/trains";
+import { IVansItemProps } from "../../../types/props/vans";
 
-const VansItem: FC<IVansItemsProps> = ({ item }) => {
+const VansItem: FC<IVansItemProps> = ({ item }) => {
     const { vans } = useContext(Context);
 
     const [vanChangeVisible, setVanChangeVisible] = useState(false);

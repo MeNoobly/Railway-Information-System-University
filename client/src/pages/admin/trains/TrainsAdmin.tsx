@@ -16,7 +16,7 @@ const TrainsAdmin: FC = observer(() => {
     }, [trains]);
 
     return (
-        <div>
+        <div className="mt-4 mb-4">
             <TrainsList list={trains.trains} />
         </div>
     );

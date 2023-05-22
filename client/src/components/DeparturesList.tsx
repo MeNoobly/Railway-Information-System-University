@@ -10,7 +10,7 @@ const RidesList: FC<IDeparturesListProps> = ({ list }) => {
                 style={{ border: "3px solid lightgray" }}
                 className="mt-4"
             >
-                <Row className=" mb-3">
+                <Row className="mb-4">
                     <Col>
                         <b>Дата выезда</b>
                     </Col>
@@ -30,8 +30,8 @@ const RidesList: FC<IDeparturesListProps> = ({ list }) => {
                         <b>Тип поездки</b>
                     </Col>
                 </Row>
-                {list.map((item) => (
-                    <DeparturesItem ride={item} key={Date.now()} />
+                {list.map((item, index) => (
+                    <DeparturesItem ride={item} key={index} />
                 ))}
             </Container>
         </div>

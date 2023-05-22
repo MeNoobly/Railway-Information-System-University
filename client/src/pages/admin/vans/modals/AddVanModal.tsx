@@ -49,7 +49,7 @@ const AddVanModal: FC<IVanModalsProps> = ({ show, handleClose }) => {
                     />
                     <Dropdown className="mt-2 mb-2">
                         <Dropdown.Toggle>
-                            {trains.selectedTrain || "Выберите тип"}
+                            {trains.selectedTrain || "Выберите поезд"}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             {trains.trains.map((item) => (

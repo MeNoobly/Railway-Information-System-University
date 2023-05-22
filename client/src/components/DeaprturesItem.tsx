@@ -5,7 +5,7 @@ import { IDeparturesItemProps } from "../types/props/departures";
 
 const DeparturesItem: FC<IDeparturesItemProps> = ({ ride }) => {
     return (
-        <Row>
+        <Row className="mb-3">
             <Col>{normaliseDate(ride._departure_date)}</Col>
             <Col>{normaliseDate(ride._arrival_date)}</Col>
             <Col>{ride._departure_city}</Col>

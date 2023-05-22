@@ -1,12 +1,12 @@
 import React, { FC, useContext, useState } from "react";
-import { ITrainsItemsProps } from "../../../types/props/trains";
+import { ITrainsItemProps } from "../../../types/props/trains";
 import { Button, Col, Row } from "react-bootstrap";
 import { deleteTrain } from "../../../http/trainsAPI";
 import ChangeTrainModal from "./modals/ChangeTrainModal";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../..";
 
-const TrainsItem: FC<ITrainsItemsProps> = observer(({ item }) => {
+const TrainsItem: FC<ITrainsItemProps> = observer(({ item }) => {
     const { trains } = useContext(Context);
 
     const [trainChangeVisible, setTrainChangeVisible] = useState(false);
