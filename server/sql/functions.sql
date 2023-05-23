@@ -51,7 +51,9 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM add_user('Nikita', '12345');
+SELECT * FROM add_user('USER', 'user');
+SELECT * FROM add_user('ADMIN', 'admin');
+
 ------------------------------------------------------------------------------------
 
 
@@ -210,7 +212,6 @@ SELECT * FROM rides WHERE arrival_date - departure_date < (
 ------------------------------------------- CORRELATED REQUESTS -------------------------------------------
 
 
-количество юзеров, которые купили билет за цену, больше средней
 SELECT COUNT(user_id) AS buisiness_class FROM users JOIN tickets ON tickets.user_id = users.user_id
 	GROUP BY price   																						
 	HAVING price >= (SELECT AVG(price) FROM tickets);
