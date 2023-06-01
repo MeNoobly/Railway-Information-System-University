@@ -29,11 +29,12 @@ export async function getAllUsersModel() {
     }
 }
 
-export async function createUserModel({ login, password }) {
+export async function createUserModel({ login, password, role }) {
     try {
-        const data = await db.query("SELECT * FROM add_user($1, $2)", [
+        const data = await db.query("SELECT * FROM add_user($1, $2, $3)", [
             login,
             password,
+            role,
         ]);
         return data.rows;
     } catch (error) {

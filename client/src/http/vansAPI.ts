@@ -31,6 +31,11 @@ export const deleteVan = async (van: IVan) => {
     try {
         const { data } = await $authHost.post("/api/vans/delete", {
             id: van.id,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
         });
         return data;
     } catch (error: Error | unknown) {

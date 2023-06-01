@@ -40,9 +40,15 @@ export const createTrain = async (train: ITrain) => {
 };
 
 export const deleteTrain = async (train: ITrain) => {
+    console.log(localStorage.getItem("token"));
     try {
         const { data } = await $authHost.post("/api/trains/delete", {
             id: train.id,
+            headers: {
+                // Accept: "application/json",
+                // "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
         });
         return data;
     } catch (error: Error | unknown) {
