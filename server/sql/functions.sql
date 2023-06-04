@@ -41,17 +41,19 @@ LANGUAGE plpgsql;
 SELECT * FROM update_train(5, 'New Train With Trigger', 15);
 -------------------------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION add_user(_name VARCHAR(255), _password VARCHAR(255))
+CREATE OR REPLACE FUNCTION add_user(_name VARCHAR(255), _password VARCHAR(255), _role VARCHAR(255))
 RETURNS VOID AS
 $BODY$
 	BEGIN
-		INSERT INTO users(name, password)
-		VALUES (_name, _password);
+		INSERT INTO users(name, password, role)
+		VALUES (_name, _password, _role);
 	END;
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM add_user('Nikita', '12345');
+SELECT * FROM add_user('USER', 'user', 'user');
+SELECT * FROM add_user('ADMIN', 'admin', 'admin');
+
 ------------------------------------------------------------------------------------
 
 
@@ -68,11 +70,11 @@ SELECT * FROM delete_user(2);
 ------------------------------------------------------------------------------------
 
 
-CREATE OR REPLACE FUNCTION update_user(_user_id INT, _username VARCHAR(255), _password VARCHAR(255))
+CREATE OR REPLACE FUNCTION update_user(_user_id INT, _username VARCHAR(255), _password VARCHAR(255), _role VARCHAR(255))
 RETURNS VOID AS
 $BODY$
 	BEGIN
-		UPDATE users SET name = _username, password = _password WHERE id = _user_id;
+		UPDATE users SET name = _username, password = _password, role = _role WHERE id = _user_id;
 	END;
 $BODY$
 LANGUAGE plpgsql;
@@ -210,7 +212,6 @@ SELECT * FROM rides WHERE arrival_date - departure_date < (
 ------------------------------------------- CORRELATED REQUESTS -------------------------------------------
 
 
-количество юзеров, которые купили билет за цену, больше средней
 SELECT COUNT(user_id) AS buisiness_class FROM users JOIN tickets ON tickets.user_id = users.user_id
 	GROUP BY price   																						
 	HAVING price >= (SELECT AVG(price) FROM tickets);

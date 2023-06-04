@@ -2,8 +2,8 @@ import { IUser } from "../types/main/user";
 import { makeAutoObservable } from "mobx";
 
 export default class UserStore {
-    private _isAdmin = true;
-    private _isAuth = true;
+    private _isAdmin = false;
+    private _isAuth = false;
     private _user: IUser | {} = {};
 
     constructor() {

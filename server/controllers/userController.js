@@ -9,16 +9,17 @@ import {
 } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import db from "../db.js";
 
-const generateJWT = (id, login) => {
-    return jwt.sign({ id, login }, process.env.SECRET_KEY, {
+const generateJWT = (id, login, role) => {
+    return jwt.sign({ id, login, role }, process.env.SECRET_KEY, {
         expiresIn: "24h",
     });
 };
 
 class userController {
     async registration(request, response, next) {
-        const { login, password } = request.body;
+        const { login, password, role } = request.body;
 
         try {
             if (!login || !password) {
@@ -43,10 +44,12 @@ class userController {
             const dataUser = await createUserModel({
                 login,
                 password: hashPassword,
+                role,
             });
+
             const user = dataUser[0];
 
-            const token = generateJWT(user.id, user.login);
+            const token = generateJWT(user.id, user.login, user.role);
 
             return response.json({ token });
         } catch (error) {
@@ -75,7 +78,9 @@ class userController {
                 return next(ApiError.badRequest("Указан неверный пароль"));
             }
 
-            const token = generateJWT(user.id, user.email, user.role);
+            db.changeUser(login, password);
+
+            const token = generateJWT(user.id, user.name, user.role);
             return response.json({ token });
         } catch (error) {
             return next(
@@ -87,7 +92,8 @@ class userController {
     }
 
     async check(request, response, next) {
-        const token = generateJWT(request.user.id, request.user.login);
+        const { id, login, role } = request.body;
+        const token = generateJWT(id, login, role);
 
         return response.json({ token });
     }

@@ -7,6 +7,7 @@ import { MAIN_PATH } from "../utils/consts";
 import { ILoginFields } from "../types/forms/login";
 import { login } from "../http/userAPI";
 import { observer } from "mobx-react-lite";
+import { IUser } from "../types/main/user";
 
 const Login: FC = observer(() => {
     const navigate = useNavigate();
@@ -25,6 +26,11 @@ const Login: FC = observer(() => {
         try {
             const values = getValues();
             const data = await login(values.login, values.password);
+            user.user = data as IUser;
+            if ((user.user as IUser).role === "ADMIN") {
+                user.isAdmin = true;
+            }
+            localStorage.setItem("user", JSON.stringify(data));
             user.isAuth = true;
             reset();
             navigate(MAIN_PATH);
@@ -36,13 +42,14 @@ const Login: FC = observer(() => {
         }
     };
 
-    const onSumbit: SubmitHandler<ILoginFields> = (data) => {
+    const onSumbit: SubmitHandler<ILoginFields> = () => {
         loginHandler();
     };
 
     return (
         <>
             <Container>
+                <h2 className="mt-2">Войти</h2>
                 <Form className="mt-4" onSubmit={handleSubmit(onSumbit)}>
                     <Form.Group className="mb-3">
                         <Form.Label>Логин</Form.Label>

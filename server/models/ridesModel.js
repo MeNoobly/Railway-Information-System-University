@@ -2,7 +2,7 @@ import db from "../db.js";
 
 export async function getAllRidesModel() {
     try {
-        const data = await db.query("SELECT * FROM rides");
+        const data = await db.pool.query("SELECT * FROM rides");
         return data.rows;
     } catch (error) {
         throw new Error(error);
@@ -17,7 +17,7 @@ export async function createRideModel(
     trainId
 ) {
     try {
-        const data = await db.query("CALL add_ride($1, $2, $3, $4, $5)", [
+        const data = await db.pool.query("CALL add_ride($1, $2, $3, $4, $5)", [
             departureDate,
             arrivalDate,
             departureCity,
@@ -39,7 +39,7 @@ export async function updateRideModel(
     trainId
 ) {
     try {
-        const data = await db.query(
+        const data = await db.pool.query(
             "SELECT * FROM update_ride($1, $2, $3, $4, $5, $6)",
             [
                 id,
@@ -58,7 +58,7 @@ export async function updateRideModel(
 
 export async function deleteRideModel(id) {
     try {
-        const data = await db.query("SELECT * FROM delete_ride($1)", [id]);
+        const data = await db.pool.query("SELECT * FROM delete_ride($1)", [id]);
         return data.rows;
     } catch (error) {
         throw new Error(error);

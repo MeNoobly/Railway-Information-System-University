@@ -2,7 +2,7 @@ import db from "../db.js";
 
 export async function getOneUserModel(login) {
     try {
-        const data = await db.query("SELECT * FROM users WHERE name=$1", [
+        const data = await db.pool.query("SELECT * FROM users WHERE name=$1", [
             login,
         ]);
         return data.rows;
@@ -13,7 +13,9 @@ export async function getOneUserModel(login) {
 
 export async function getOneUserModelId(id) {
     try {
-        const data = await db.query("SELECT * FROM users WHERE id=$1", [id]);
+        const data = await db.pool.query("SELECT * FROM users WHERE id=$1", [
+            id,
+        ]);
         return data.rows;
     } catch (error) {
         throw new Error(error);
@@ -22,18 +24,19 @@ export async function getOneUserModelId(id) {
 
 export async function getAllUsersModel() {
     try {
-        const data = await db.query("SELECT * FROM users");
+        const data = await db.pool.query("SELECT * FROM users");
         return data.rows;
     } catch (error) {
         throw new Error(error);
     }
 }
 
-export async function createUserModel({ login, password }) {
+export async function createUserModel({ login, password, role }) {
     try {
-        const data = await db.query("SELECT * FROM add_user($1, $2)", [
+        const data = await db.pool.query("SELECT * FROM add_user($1, $2, $3)", [
             login,
             password,
+            role,
         ]);
         return data.rows;
     } catch (error) {
@@ -43,11 +46,10 @@ export async function createUserModel({ login, password }) {
 
 export async function updateUserModel({ id, login, password }) {
     try {
-        const data = await db.query("SELECT * FROM update_user($1, $2, $3)", [
-            id,
-            login,
-            password,
-        ]);
+        const data = await db.pool.query(
+            "SELECT * FROM update_user($1, $2, $3)",
+            [id, login, password]
+        );
         return data.rows;
     } catch (error) {
         throw new Error(error);
@@ -56,7 +58,7 @@ export async function updateUserModel({ id, login, password }) {
 
 export async function deleteUserModel(id) {
     try {
-        const data = await db.query("SELECT * FROM delete_user($1)", [id]);
+        const data = await db.pool.query("SELECT * FROM delete_user($1)", [id]);
         return data.rows;
     } catch (error) {
         throw new Error(error);

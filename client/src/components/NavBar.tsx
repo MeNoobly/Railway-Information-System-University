@@ -10,10 +10,19 @@ import {
     Nav,
 } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
+import { LOGIN_PATH } from "../utils/consts";
 
 const NavBar: FC = observer(() => {
     const { user } = useContext<IContext>(Context);
     const navigate = useNavigate();
+
+    const logout = () => {
+        user.user = {};
+        user.isAuth = false;
+        user.isAdmin = false;
+        localStorage.setItem("token", "");
+        navigate(LOGIN_PATH);
+    };
 
     return (
         <>
@@ -41,8 +50,7 @@ const NavBar: FC = observer(() => {
                             </Dropdown.Item>
                             <Dropdown.Item
                                 onClick={() => {
-                                    navigate("/");
-                                    user.isAuth = false;
+                                    logout();
                                 }}
                             >
                                 Выйти
@@ -51,9 +59,6 @@ const NavBar: FC = observer(() => {
                     ) : (
                         <Nav className="ml-auto">
                             <Nav.Link href="/login">Войти</Nav.Link>
-                            <Nav.Link href="/registration">
-                                Зарегистрироваться
-                            </Nav.Link>
                         </Nav>
                     )}
                 </Container>

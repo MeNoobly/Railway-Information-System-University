@@ -2,13 +2,9 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Profile from "./pages/Profile";
-import Registration from "./pages/Registration";
 import { IRoutes } from "./types/routes/routes";
 
-export const publicRoutes: IRoutes[] = [
-    { path: "/login", Component: Login },
-    { path: "/registration", Component: Registration },
-];
+export const publicRoutes: IRoutes[] = [{ path: "/login", Component: Login }];
 
 export const authRoutes: IRoutes[] = [
     { path: "/profile", Component: Profile },
