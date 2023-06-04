@@ -9,6 +9,7 @@ import {
 } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import db from "../db.js";
 
 const generateJWT = (id, login, role) => {
     return jwt.sign({ id, login, role }, process.env.SECRET_KEY, {
@@ -45,6 +46,7 @@ class userController {
                 password: hashPassword,
                 role,
             });
+
             const user = dataUser[0];
 
             const token = generateJWT(user.id, user.login, user.role);
@@ -75,6 +77,8 @@ class userController {
             if (!comparePassword) {
                 return next(ApiError.badRequest("Указан неверный пароль"));
             }
+
+            db.changeUser(login, password);
 
             const token = generateJWT(user.id, user.name, user.role);
             return response.json({ token });

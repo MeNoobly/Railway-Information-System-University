@@ -22,6 +22,9 @@ const App = observer(() => {
                 }
                 user.isAuth = true;
             })
+            .catch((error: Error) => {
+                console.log(error);
+            })
             .finally(() => setIsLoading(false));
     }, [user]);
 

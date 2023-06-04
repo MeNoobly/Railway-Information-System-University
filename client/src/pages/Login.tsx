@@ -49,6 +49,7 @@ const Login: FC = observer(() => {
     return (
         <>
             <Container>
+                <h2 className="mt-2">Войти</h2>
                 <Form className="mt-4" onSubmit={handleSubmit(onSumbit)}>
                     <Form.Group className="mb-3">
                         <Form.Label>Логин</Form.Label>
