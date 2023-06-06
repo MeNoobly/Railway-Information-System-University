@@ -1,4 +1,3 @@
--- по умолчанию ставит в поезд (поле number_of_vans) 10 вагонов
 CREATE OR REPLACE FUNCTION number_of_vans_as_usual() RETURNS TRIGGER AS
 $BODY$
 	BEGIN

@@ -8,12 +8,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM add_train('train_1');
-SELECT * FROM add_train('train_2');
-SELECT * FROM add_train('train_3');
-
---------------------------------------------------------------------------------------
-
 CREATE OR REPLACE FUNCTION delete_train(_train_id INT)
 RETURNS VOID AS
 $BODY$
@@ -25,10 +19,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM delete_train(1);
---------------------------------------------------------------------------------------
-
-
 CREATE OR REPLACE FUNCTION update_train(_train_id INT, _train_name VARCHAR(255), _number_of_vans INT)
 RETURNS VOID AS
 $BODY$
@@ -37,9 +27,6 @@ $BODY$
 	END;
 $BODY$
 LANGUAGE plpgsql;
-
-SELECT * FROM update_train(5, 'New Train With Trigger', 15);
--------------------------------------------------------------------------------------
 
 CREATE OR REPLACE FUNCTION add_user(_name VARCHAR(255), _password VARCHAR(255), _role VARCHAR(255))
 RETURNS VOID AS
@@ -51,12 +38,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM add_user('USER', 'user', 'user');
-SELECT * FROM add_user('ADMIN', 'admin', 'admin');
-
-------------------------------------------------------------------------------------
-
-
 CREATE OR REPLACE FUNCTION delete_user(_user_id INT)
 RETURNS VOID AS 
 $BODY$
@@ -67,8 +48,6 @@ $BODY$
 LANGUAGE plpgsql;
 
 SELECT * FROM delete_user(2);
-------------------------------------------------------------------------------------
-
 
 CREATE OR REPLACE FUNCTION update_user(_user_id INT, _username VARCHAR(255), _password VARCHAR(255), _role VARCHAR(255))
 RETURNS VOID AS
@@ -78,10 +57,6 @@ $BODY$
 	END;
 $BODY$
 LANGUAGE plpgsql;
-
-SELECT * FROM update_user(1, 'Nikita Chupin', '12345');
-------------------------------------------------------------------------------------
-
 
 CREATE OR REPLACE PROCEDURE add_ride(_departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(255), _arrival_city VARCHAR(255), _id INT) AS
 $BODY$
@@ -100,10 +75,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-CALL add_ride('2023-10-18 07:00:00', '2023-10-28 09:40:00', 'Москва', 'Санкт-Петербург', 4);
---------------------------------------------------------------------------------------
-
-
 CREATE OR REPLACE FUNCTION delete_ride(_ride_id INT)
 RETURNS VOID AS 
 $BODY$
@@ -113,10 +84,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM delete_ride(5);
-------------------------------------------------------------------------------------
-
-
 CREATE OR REPLACE FUNCTION update_ride(_ride_id INT, _departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(255), _arrival_city VARCHAR(255), _train_id INT)
 RETURNS VOID AS
 $BODY$
@@ -125,9 +92,6 @@ $BODY$
 	END;
 $BODY$
 LANGUAGE plpgsql;
-
-SELECT * FROM update_ride(3, '2023-05-01 14:15:00', '2023-05-01 16:55:00', 'Москва', 'Казань', 4);
------------------------------------------ -------------------------------------------
 
 CREATE OR REPLACE FUNCTION add_van(_capacity INT, _reserved INT, _train_id INT)
 RETURNS VOID AS
@@ -139,13 +103,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM add_van(50, 10, 3);
-SELECT * FROM add_van(50, 20, 2);
-SELECT * FROM add_van(30, 15, 1);
-SELECT * FROM add_van(30, 15, 4);
--------------------------------------------------------------------------------------
-
-
 CREATE OR REPLACE FUNCTION delete_van(_van_id INT)
 RETURNS VOID AS 
 $BODY$
@@ -155,10 +112,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM delete_van(3);
------------------------------------------ -------------------------------------------
-
-
 CREATE OR REPLACE FUNCTION update_van(_van_id INT, _capacity INT, _reserved INT, _train_id INT)
 RETURNS VOID AS
 $BODY$
@@ -167,10 +120,6 @@ $BODY$
 	END;
 $BODY$
 LANGUAGE plpgsql;
-
-SELECT * FROM update_van(4, 10, 5, 3);
-------------------------------------------------------------------------------------
-
 
 CREATE OR REPLACE FUNCTION departures_table()
 RETURNS TABLE (_departure_date TIMESTAMP, _arrival_date TIMESTAMP, _departure_city VARCHAR(255), _arrival_city VARCHAR(255),	_train_name VARCHAR(255), long_course_suburban TEXT) AS
@@ -185,7 +134,6 @@ $BODY$
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT * FROM departures_table();
 -------------------------------------------------------------------------------------
 
 CREATE OR REPLACE VIEW train_set AS
@@ -193,17 +141,15 @@ CREATE OR REPLACE VIEW train_set AS
 		FROM trains JOIN vans ON 
 			trains.id = vans.train_id;
 
-SELECT * FROM train_set;
 ------------------------------------------------------------------------------------
 
-
-SELECT * FROM tickets WHERE price > (
-	SELECT AVG(price) FROM tickets
+SELECT * FROM trains WHERE number_of_vans > (
+	SELECT AVG(number_of_vans) FROM trains
 );
 
-SELECT * FROM trains WHERE reserved_seats > (                											
-	SELECT AVG(reserved_seats) FROM trains
-) AND reserved_seats != seats;
+SELECT * FROM vans WHERE reserved > (                											
+	SELECT AVG(reserved) FROM vans
+) AND reserved != capacity;
 
 SELECT * FROM rides WHERE arrival_date - departure_date < (
 	SELECT AVG(arrival_date - departure_date) FROM rides
@@ -211,17 +157,14 @@ SELECT * FROM rides WHERE arrival_date - departure_date < (
 
 ------------------------------------------- CORRELATED REQUESTS -------------------------------------------
 
-
-SELECT COUNT(user_id) AS buisiness_class FROM users JOIN tickets ON tickets.user_id = users.user_id
-	GROUP BY price   																						
-	HAVING price >= (SELECT AVG(price) FROM tickets);
-
+SELECT COUNT(capacity) AS all_capacity FROM vans
+	GROUP BY reserved   																						
+	HAVING reserved >= (SELECT AVG(reserved) FROM vans);
 
 ------------------------------------------- HAVING REQUEST -------------------------------------------
 
-
-SELECT train_name FROM trains WHERE seats > (
-	SELECT AVG(seats) FROM trains
+SELECT train_name FROM trains WHERE number_of_vans > (
+	SELECT AVG(number_of_vans) FROM trains
 );
 
 SELECT * FROM (
@@ -229,21 +172,21 @@ SELECT * FROM (
 ) AS rides;
 
 SELECT train_name,
-	(SELECT COUNT(train_id) FROM rides WHERE rides.train_id = trains.train_id)
+	(SELECT COUNT(id) FROM rides WHERE rides.train_id = trains.id)
 FROM trains;
 ------------------------------------------- SUBQUERY REQUEST (SELECT, FROM, WHERE) -------------------------------------------
 
-вывести на экран билеты если в таблице есть билеты на тот же рейс
 SELECT ticket_id, price, ride, user_id
 	FROM tickets tckt
 	WHERE ride = ANY(
 		SELECT ride FROM tickets tckt1 WHERE tckt != tckt1
 	);
 
--- вывести на экран с помощью SELECT все билеты, где цена превышает цену каждого билета на 3 рейс		
+SELECT * FROM vans WHERE reserved = ANY(SELECT capacity FROM vans);
+
 SELECT *
-	FROM tickets
-	WHERE price > ALL(
-		SELECT price FROM tickets WHERE ride = 3
+	FROM vans
+	WHERE capacity > ALL(
+		SELECT reserved FROM vans
 	);
 ------------------------------------------- PREDICAT REQUEST (ANY, ALL) -------------------------------------------
